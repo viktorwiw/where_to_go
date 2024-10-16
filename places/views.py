@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.urls import reverse
 
 from places.models import Place
 
@@ -24,7 +24,7 @@ def index(request):
             "properties": {
                 "title": place.title_short,
                 "placeId": place.id,
-                "detailsUrl": settings.STATIC_URL + 'places/moscow_legends.json'
+                "detailsUrl": reverse('place_info', args=[place.id]),
                 }
             }
         places_geojson['features'].append(feature)
@@ -49,5 +49,4 @@ def get_place(request, place_id):
     }
     for image in images:
         response['imgs'].append(image.image.url)
-
     return JsonResponse(response, json_dumps_params={'ensure_ascii': False, 'indent': 4})
