@@ -40,8 +40,8 @@ def get_place(request, place_id):
     response = {
         "title": place.title,
         "imgs": [],
-        "description_short": place.description_short,
-        "description_long": place.description_long,
+        "short_description": place.short_description,
+        "long_description": place.long_description,
         "coordinates": {
             "lat": place.latitude,
             "lng": place.longitude
