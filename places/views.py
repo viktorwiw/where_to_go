@@ -22,7 +22,7 @@ def index(request):
                 "coordinates": [place.longitude, place.latitude]
             },
             "properties": {
-                "title": place.title_short,
+                "title": place.title,
                 "placeId": place.id,
                 "detailsUrl": reverse('place_info', args=[place.id]),
                 }
