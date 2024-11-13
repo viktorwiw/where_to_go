@@ -45,11 +45,15 @@ class Command(BaseCommand):
                 image_response = requests.get(image_url, timeout=timeout)
                 image_response.raise_for_status()
             except requests.exceptions.HTTPError as e:
-                self.stdout.write(f"Ошибка при скачивании изображения по URL {image_url}: {e}")
+                self.stdout.write(f'Ошибка при скачивании изображения по URL '
+                                  f'{image_url}: {e}')
                 continue
 
             image_name = urlparse(image_url).path.split('/')[-1]
-            image_content = ContentFile(image_response.content, name=image_name)
+            image_content = ContentFile(
+                image_response.content,
+                name=image_name
+            )
 
             picture = Image(place=place)
             picture.image.save(image_name, image_content, save=True)
@@ -57,4 +61,5 @@ class Command(BaseCommand):
         if created:
             self.stdout.write(self.style.SUCCESS('Новый объект создан'))
         else:
-            self.stdout.write(self.style.SUCCESS(f'{location["title"]} - Такой объект уже существует'))
+            self.stdout.write(self.style.SUCCESS(f'{location["title"]} - '
+                                                 f'Такой объект уже существует'))

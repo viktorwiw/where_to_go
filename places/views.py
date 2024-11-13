@@ -10,21 +10,21 @@ def index(request):
     places = Place.objects.all()
 
     places_geojson = {
-        "type": "FeatureCollection",
-        "features": []
+        'type': 'FeatureCollection',
+        'features': []
     }
 
     for place in places:
         feature = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [place.longitude, place.latitude]
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [place.longitude, place.latitude]
             },
-            "properties": {
-                "title": place.title,
-                "placeId": place.id,
-                "detailsUrl": reverse('place_info', args=[place.id]),
+            'properties': {
+                'title': place.title,
+                'placeId': place.id,
+                'detailsUrl': reverse('place_info', args=[place.id]),
                 }
             }
         places_geojson['features'].append(feature)
@@ -38,15 +38,18 @@ def get_place(request, place_id):
     images = place.images.all()
 
     response = {
-        "title": place.title,
-        "imgs": [],
-        "short_description": place.short_description,
-        "long_description": place.long_description,
-        "coordinates": {
-            "lat": place.latitude,
-            "lng": place.longitude
+        'title': place.title,
+        'imgs': [],
+        'short_description': place.short_description,
+        'long_description': place.long_description,
+        'coordinates': {
+            'lat': place.latitude,
+            'lng': place.longitude
         }
     }
     for image in images:
         response['imgs'].append(image.image.url)
-    return JsonResponse(response, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+    return JsonResponse(response, json_dumps_params={
+        'ensure_ascii': False,
+        'indent': 4
+    })

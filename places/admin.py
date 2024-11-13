@@ -8,17 +8,17 @@ from places.models import Place, Image
 class ImageInline(SortableTabularInline):
     model = Image
     extra = 1
-    verbose_name_plural = "Фотографии"
+    verbose_name_plural = 'Фотографии'
     readonly_fields = ['get_preview']
     fields = ('image', 'get_preview', 'position')
 
     def get_preview(self, obj):
-        return format_html('<img src="{}" width="{}" height="{}" />',
-          obj.image.url,
+        return format_html(
+            '<img src="{}" width="{}" height="{}" />',
+            obj.image.url,
             'auto',
             '200px'
             )
-
 
 
 @admin.register(Place)
