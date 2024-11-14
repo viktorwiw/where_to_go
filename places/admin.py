@@ -14,9 +14,9 @@ class ImageInline(SortableTabularInline):
 
     def get_preview(self, obj):
         return format_html(
-            '<img src="{}" width="{}" height="{}" />',
+            '<img src="{}" max_width="{}" max_height="{}" />',
             obj.image.url,
-            'auto',
+            '200px',
             '200px'
             )
 
@@ -25,3 +25,18 @@ class ImageInline(SortableTabularInline):
 class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     inlines = [ImageInline]
     search_fields = ['title']
+
+
+@admin.register(Image)
+class ImageAdmin(SortableAdminBase, admin.ModelAdmin):
+    autocomplete_fields = ['place']
+    fields = ('image', 'get_preview_image')
+    readonly_fields = ['get_preview_image']
+
+    def get_preview_image(self, obj):
+        return format_html(
+            '<img src="{}" max_width="{}" max_height="{}" />',
+            obj.image.url,
+            '200px',
+            '200px'
+            )

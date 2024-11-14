@@ -31,4 +31,4 @@ class Image(models.Model):
         ordering = ['position']
 
     def __str__(self):
-        return f'{self.position} {self.place}'
+        return f'{self.place}'
