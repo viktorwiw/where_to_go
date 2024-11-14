@@ -11,24 +11,21 @@ def index(request):
 
     places_geojson = {
         'type': 'FeatureCollection',
-        'features': []
-    }
-
-    for place in places:
-        feature = {
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [place.longitude, place.latitude]
+        'features': [
+            {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [place.longitude, place.latitude]
             },
             'properties': {
                 'title': place.title,
                 'placeId': place.id,
                 'detailsUrl': reverse('place_info', args=[place.id]),
-                }
-            }
-        places_geojson['features'].append(feature)
-
+            }}
+            for place in places
+        ]
+    }
     context = {'places_geojson': places_geojson}
     return render(request, 'index.html', context)
 
