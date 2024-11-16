@@ -1,10 +1,11 @@
+import logging
+from urllib.parse import urlparse
+
+import requests
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
-import requests
-from urllib.parse import urlparse
-from places.models import Place, Image
-import logging
 
+from places.models import Image, Place
 
 logger = logging.getLogger(__name__)
 
