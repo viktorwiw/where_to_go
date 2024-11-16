@@ -31,12 +31,11 @@ def index(request):
 
 
 def get_place(request, place_id):
-    place = get_object_or_404(Place, pk=place_id)
-    images = place.images.all()
+    place = get_object_or_404(Place.objects.prefetch_related('images'), pk=place_id)
 
     response = {
         'title': place.title,
-        'imgs': [],
+        'imgs': [image.image.url for image in place.images.all()],
         'short_description': place.short_description,
         'long_description': place.long_description,
         'coordinates': {
@@ -44,8 +43,6 @@ def get_place(request, place_id):
             'lng': place.longitude
         }
     }
-    for image in images:
-        response['imgs'].append(image.image.url)
     return JsonResponse(response, json_dumps_params={
         'ensure_ascii': False,
         'indent': 4
