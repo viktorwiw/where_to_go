@@ -55,9 +55,7 @@ class Command(BaseCommand):
                 image_response.content,
                 name=image_name
             )
-
-            picture = Image(place=place)
-            picture.image.save(image_name, image_content, save=True)
+            Image.objects.create(place=place, image=image_content)
 
         if created:
             self.stdout.write(self.style.SUCCESS('Новый объект создан'))
