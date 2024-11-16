@@ -7,8 +7,6 @@ from django.core.management.base import BaseCommand, CommandError
 
 from places.models import Image, Place
 
-logger = logging.getLogger(__name__)
-
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -34,12 +32,14 @@ class Command(BaseCommand):
         location = response.json()
 
         place, created = Place.objects.get_or_create(
-            title=location['title'],
-            short_description=location['description_short'],
-            long_description=location['description_long'],
-            longitude=location['coordinates']['lng'],
-            latitude=location['coordinates']['lat'],
-            )
+            title=location['title'],  # Поле для поиска
+            defaults={
+                'short_description': location['description_short'],
+                'long_description': location['description_long'],
+                'longitude': location['coordinates']['lng'],
+                'latitude': location['coordinates']['lat'],
+            }
+        )
 
         for image_url in location['imgs']:
             try:
